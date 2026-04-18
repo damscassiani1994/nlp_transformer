@@ -58,18 +58,18 @@ def readVocs(datafile, corpus_name: str):
     return voc, pairs
 
 # Returns True if both sentences in a pair 'p' are under the MAX_LENGTH threshold
-def filterPair(pair):
-    return len(pair[0].split(' ')) < MAX_LENGTH and len(pair[1].split(' ')) < MAX_LENGTH
+def filterPair(pair, max_seq_length = MAX_LENGTH):
+    return len(pair[0].split(' ')) < max_seq_length and len(pair[1].split(' ')) < max_seq_length
 
 # Filter pairs using the ``filterPair`` condition
-def filterPairs(pairs):
-    return [pair for pair in pairs if filterPair(pair)]
+def filterPairs(pairs, max_seq_length):
+    return [pair for pair in pairs if filterPair(pair, max_seq_length)]
 
-def loadPrepareData(corpus_name, datafile):
+def loadPrepareData(corpus_name, datafile, max_seq_length):
     print("Start preparing training data ...")
     voc, pairs = readVocs(datafile, corpus_name)
     print("Read {!s} sentence pairs".format(len(pairs)))
-    pairs = filterPairs(pairs)
+    pairs = filterPairs(pairs, max_seq_length)
     print("Trimmed to {!s} sentence pairs".format(len(pairs)))
     print("Counting words...")
     for pair in pairs:

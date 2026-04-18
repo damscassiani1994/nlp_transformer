@@ -9,7 +9,7 @@ from classes.transformer import Transformer
 device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available else "cpu"
 print("Device to evaluate on: ", device)
 
-checkpoit = torch.load(os.path.join('datasets', 'save', 'transformer_model2', '40000_checkpoint.tar'), map_location=device)
+checkpoit = torch.load(os.path.join('datasets', 'save', 'transformer_model2', '50000_checkpoint.tar'), map_location=device)
 
 transformer_sd = checkpoit['model_state_dict']
 voc_dic = checkpoit['voc_dict']

@@ -94,7 +94,7 @@ def evaluate_tr_input(transformer, max_seq_length, device, voc, greedy_decoder):
             output = evaluate_tr(transformer, max_seq_length, device, voc, input_sentence, greedy_decoder)
             output = output.squeeze().tolist()
             decoded_words = [voc.index2word[token] for token in output]
-            print('Bot:', ' '.join(decoded_words[1:-1]))
+            print('Bot:', ' '.join(decoded_words[1:-1]).replace("SOS", ""))
         except KeyboardInterrupt:
             print("\nExiting...")
             break
