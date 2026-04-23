@@ -32,7 +32,7 @@ def get_data_batches(pairs, max_length, vocab: Voc):
         target_batches.append(target_seq)
 
     inputs = [padding_sequences(seq, max_length) for seq in input_bacthes]
-    targets = [padding_sequences(seq, max_length) for seq in target_batches]
+    targets = [padding_sequences(seq, max_length + 1) for seq in target_batches]
 
     return torch.tensor(inputs), torch.tensor(targets)
 

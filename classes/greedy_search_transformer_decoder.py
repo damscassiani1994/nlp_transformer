@@ -33,12 +33,12 @@ class GreedySearchTransformerDecoder(nn.Module):
 
         for _ in range(self.max_length):
 
-            tgt_mask = (decoder_ouput != 0).unsqueeze(1).unsqueeze(3).to(self.device)
+            tgt_mask = (decoder_ouput != 0).unsqueeze(1).unsqueeze(2).to(self.device)
 
             seq_len = decoder_ouput.size(1)
             nopeak_mask = torch.triu(torch.ones(1, seq_len, seq_len), diagonal=1).bool().to(self.device)
             nopeak_mask = nopeak_mask.unsqueeze(1)
-            tgt_mask = tgt_mask & nopeak_mask
+            tgt_mask = tgt_mask & ~nopeak_mask
 
             dec_output = self.model.decoder_embedding(decoder_ouput)
             #dec_output = self.model.positional_encoding(dec_output)

@@ -16,17 +16,18 @@ from util.transformer_util import loadPrepareData
 
 corpus_data_path= "./datasets/movie-corpus"
 device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available else "cpu"
-max_seq_length = 90
+max_seq_length = 70
 
-print("Divece", device)
+print("Device", device)
 
-datafile = os.path.join(corpus_data_path, "formatted_dailydialog.txt")
+datafile = os.path.join(corpus_data_path, "ingles_conversation_1M.txt")
 delimiter = '%'
 delimiter = str(codecs.decode(delimiter, "unicode_escape"))
 
 save_dir = os.path.join('datasets', 'save')
 voc: Voc = None
 voc, pairs = loadPrepareData(corpus_data_path, datafile, max_seq_length)
+voc.trim(3)
 print("\npairs:")
 for pair in pairs[:10]:
     print(pair)
@@ -39,14 +40,14 @@ num_encoder_layers = 4
 num_decoder_layers = 4
 d_ff = 4 * d_model
 dropout = 0.1
-n_iteration = 50000
+n_iteration = 10000
 batch_size = 8
 print_every = 1
 
 print("\nMax sequence length:", max_seq_length)
 
 print("\nTraining Transformer...")
-itertrain_transformer(src_vocab_size, tgt_vocab_size, d_model, num_heads, d_ff, max_seq_length,
+itertrain_transformer(src_vocab_size, tgt_vocab_size, d_model, num_heads, d_ff, max_seq_length + 1,
                       dropout, n_iteration, pairs, voc, device, batch_size, 
                       num_encoder_layers, num_decoder_layers, print_every)
 print("\nTraining Transformer finished!")
