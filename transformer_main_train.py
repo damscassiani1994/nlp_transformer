@@ -16,7 +16,7 @@ from util.transformer_util import loadPrepareData
 
 corpus_data_path= "./datasets/movie-corpus"
 device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available else "cpu"
-max_seq_length = 70
+max_seq_length = 350
 
 print("Device", device)
 
@@ -28,6 +28,14 @@ save_dir = os.path.join('datasets', 'save')
 voc: Voc = None
 voc, pairs = loadPrepareData(corpus_data_path, datafile, max_seq_length)
 voc.trim(3)
+
+pairs = [
+    pair for pair in pairs
+    if all(word in voc.word2index for word in pair[0].split(' '))
+    and all(word in voc.word2index for word in pair[1].split(' '))
+]
+print(f"Pairs after trim filter: {len(pairs)}")
+
 print("\npairs:")
 for pair in pairs[:10]:
     print(pair)
